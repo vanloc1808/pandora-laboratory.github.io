@@ -4,6 +4,12 @@ import InteractiveDemo from "./components/InteractiveDemo";
 import QuantitativeTable from "./components/QuantitativeTable";
 import fs from "fs";
 import path from "path";
+import { Pacifico } from "next/font/google";
+
+const titleScript = Pacifico({
+  subsets: ["latin"],
+  weight: "400",
+});
 
 export default async function Home() {
   // Discover all result triplets in public/results at build/render time
@@ -44,119 +50,171 @@ export default async function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-700 text-white">
+    <div className="min-h-screen bg-gradient-to-b from-sky-50 via-white to-sky-100 text-gray-900">
       {/* Hero Section */}
-      <section className="py-12 px-4">
+      <section className="py-16 px-4">
         <div className="max-w-6xl mx-auto text-center">
           {/* Title */}
-          <h1 className="text-4xl md:text-5xl lg:text-5xl font-normal leading-tight mb-8 px-4 flex flex-col items-center">
-            <span className="flex items-center gap-2">
-              PANDORA
-              <img src="/eraser.svg" alt="Eraser" className="w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 inline-block" />
-              : Pixel-wise Attention Dissolution
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight mb-8 px-4 flex flex-col items-center gap-3 text-center">
+            <span className="flex flex-wrap items-center justify-center gap-3">
+              <span
+                className={`${titleScript.className} bg-clip-text text-transparent bg-gradient-to-r from-pink-400 via-purple-400 to-sky-400`}
+              >
+                PANDORA
+              </span>
+              <img
+                src="/eraser.svg"
+                alt="Eraser"
+                className="w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 inline-block drop-shadow-sm"
+              />
             </span>
-            <span>and Latent Guidance for Zero-Shot Object Removal</span>
+            <span
+              className={`${titleScript.className} bg-clip-text text-transparent bg-gradient-to-r from-pink-400 via-purple-400 to-sky-400 text-2xl md:text-3xl lg:text-4xl font-semibold`}
+            >
+              Pixel-wise Attention Dissolution and Latent Guidance
+            </span>
+            <span
+              className={`${titleScript.className} bg-clip-text text-transparent bg-gradient-to-r from-pink-400 via-purple-400 to-sky-400 text-2xl md:text-3xl lg:text-4xl font-semibold`}
+            >
+              for Zero-Shot Object Removal
+            </span>
           </h1>
 
           {/* Authors */}
-          <div className="text-lg md:text-xl mb-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+          <div className="text-base md:text-lg mb-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sky-600">
             <span>
-              <a href="https://orcid.org/0000-0001-8831-8846" target="_blank" rel="noopener noreferrer" className="text-sky-300 hover:text-sky-200 hover:underline">
+              <a
+                href="https://orcid.org/0000-0001-8831-8846"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-sky-500 hover:underline font-medium"
+              >
                 Dinh-Khoi Vo
-              </a><sup>1,2</sup>
+              </a>
+              <sup className="ml-0.5 text-slate-500">1,2</sup>
             </span>
             <span>
-              <a href="https://orcid.org/0000-0001-9351-3750" target="_blank" rel="noopener noreferrer" className="text-sky-300 hover:text-sky-200 hover:underline">
+              <a
+                href="https://orcid.org/0000-0001-9351-3750"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-sky-500 hover:underline font-medium"
+              >
                 Van-Loc Nguyen
-              </a><sup>1,2</sup>
+              </a>
+              <sup className="ml-0.5 text-slate-500">1,2</sup>
             </span>
             <span>
-              <a href="#" target="_blank" rel="noopener noreferrer" className="text-sky-300 hover:text-sky-200 hover:underline">
+              <a
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-sky-500 hover:underline font-medium"
+              >
                 Tam V. Nguyen
-              </a><sup>3</sup>
+              </a>
+              <sup className="ml-0.5 text-slate-500">3</sup>
             </span>
             <span>
-              <a href="https://orcid.org/0000-0003-3046-3041" target="_blank" rel="noopener noreferrer" className="text-sky-300 hover:text-sky-200 hover:underline">
+              <a
+                href="https://orcid.org/0000-0003-3046-3041"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-sky-500 hover:underline font-medium"
+              >
                 Minh-Triet Tran
-              </a><sup>1,2</sup>
+              </a>
+              <sup className="ml-0.5 text-slate-500">1,2</sup>
             </span>
             <span>
-              <a href="https://orcid.org/0000-0002-7363-2610" target="_blank" rel="noopener noreferrer" className="text-sky-300 hover:text-sky-200 hover:underline">
+              <a
+                href="https://orcid.org/0000-0002-7363-2610"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-sky-500 hover:underline font-medium"
+              >
                 Trung-Nghia Le
-              </a><sup>1,2</sup>
+              </a>
+              <sup className="ml-0.5 text-slate-500">1,2</sup>
             </span>
           </div>
 
           {/* Affiliations */}
-          <div className="text-base md:text-lg mb-4 flex flex-col items-center justify-center gap-y-2">
+          <div className="text-xs md:text-sm lg:text-base mb-4 flex flex-col items-center justify-center gap-y-1 text-slate-600">
             <span>
-              <sup>1</sup>University of Science, VNU-HCM, Ho Chi Minh City, Vietnam
+              <sup className="mr-0.5">1</sup>University of Science, VNU-HCM, Ho Chi Minh City, Vietnam
             </span>
             <span>
-              <sup>2</sup>Vietnam National University, Ho Chi Minh City, Vietnam
+              <sup className="mr-0.5">2</sup>Vietnam National University, Ho Chi Minh City, Vietnam
             </span>
             <span>
-              <sup>3</sup>University of Dayton, Ohio, United States
+              <sup className="mr-0.5">3</sup>University of Dayton, Ohio, United States
             </span>
           </div>
 
           {/* Email */}
-          <div className="text-base mb-8 italic">
+          <div className="text-xs md:text-sm lg:text-base mb-10 italic text-slate-500">
             &#123;vdkhoi, nvloc&#125;@selab.hcmus.edu.vn, tamnguyen@udayton.edu, &#123;tmtriet, ltnghia&#125;@fit.hcmus.edu.vn
           </div>
 
           {/* Action Buttons */}
-          <div className="flex flex-wrap items-center justify-center gap-8 mb-12">
+          <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6 mb-14">
             <a
               href="/PANDORA.pdf"
-              className="px-6 py-3 bg-slate-600 hover:bg-slate-500 rounded border border-slate-500 transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-slate-900 text-white text-sm md:text-base font-medium shadow-sm hover:bg-slate-800 transition-colors"
               rel="noopener noreferrer"
             >
-              PDF
+              <span className="text-lg">📄</span>
+              <span>Paper PDF</span>
             </a>
             <a
               href="#"
-              className="px-6 py-3 bg-slate-600 hover:bg-slate-500 rounded border border-slate-500 transition-colors cursor-not-allowed opacity-75 relative"
+              className="relative inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-slate-700 text-sm md:text-base font-medium border border-slate-200 shadow-sm cursor-not-allowed opacity-80"
               title="Coming soon"
             >
-              arXiv
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs px-1 py-0.5 rounded-full font-bold transform rotate-12">
-                Soon
+              <span className="text-lg">🧾</span>
+              <span>arXiv</span>
+              <span className="absolute -top-1 -right-1 bg-rose-500 text-white text-[10px] px-1.5 py-0.5 rounded-full font-semibold tracking-wide">
+                SOON
               </span>
             </a>
             <a
               href="#"
-              className="px-6 py-3 bg-slate-600 hover:bg-slate-500 rounded border border-slate-500 transition-colors cursor-not-allowed opacity-75 relative"
+              className="relative inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-slate-700 text-sm md:text-base font-medium border border-slate-200 shadow-sm cursor-not-allowed opacity-80"
               title="Coming soon"
             >
-              Code
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs px-1 py-0.5 rounded-full font-bold transform rotate-12">
-                Soon
+              <span className="text-lg">💻</span>
+              <span>Code</span>
+              <span className="absolute -top-1 -right-1 bg-rose-500 text-white text-[10px] px-1.5 py-0.5 rounded-full font-semibold tracking-wide">
+                SOON
               </span>
             </a>
             <a
               href="https://4e5fb5a771209acf2f.gradio.live/"
-              className="px-6 py-3 bg-slate-600 hover:bg-slate-500 rounded border border-slate-500 transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-emerald-500 text-white text-sm md:text-base font-medium shadow-sm hover:bg-emerald-600 transition-colors"
               target="_blank"
               rel="noopener noreferrer"
             >
-              Gradio Demo
+              <span className="text-lg">🚀</span>
+              <span>Gradio Demo</span>
             </a>
             <a
               href="https://docs.google.com/forms/d/e/1FAIpQLSf6j6FOHiCdcZJJJ5DVRVgFTxIPTzEH91o2XVbsFNU6Xpp9Ig/viewform"
-              className="px-6 py-3 bg-slate-600 hover:bg-slate-500 rounded border border-slate-500 transition-colors flex items-center gap-2"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-slate-700 text-sm md:text-base font-medium border border-slate-200 shadow-sm hover:bg-slate-50 transition-colors"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <span>💬</span>
-              Feedback
+              <span className="text-lg">💬</span>
+              <span>Feedback</span>
             </a>
           </div>
 
           {/* Hero Video Demo */}
-          <div className="max-w-4xl mx-auto bg-gray-100 rounded-lg p-8">
-            <h2 className="text-3xl text-gray-700 font-light mb-6">Demo Video</h2>
-            <div className="aspect-video bg-white rounded overflow-hidden relative">
+          <div className="max-w-4xl mx-auto bg-white/80 border border-slate-100 rounded-3xl p-6 md:p-8 shadow-sm">
+            <h2 className="text-2xl md:text-3xl text-slate-800 font-semibold mb-4 md:mb-6">
+              Demo Video
+            </h2>
+            <div className="aspect-video bg-slate-900 rounded-2xl overflow-hidden relative shadow-md">
               <video
                 className="w-full h-full object-cover"
                 controls
@@ -168,10 +226,10 @@ export default async function Home() {
                 Your browser does not support the video tag.
               </video>
               {/* Video Labels */}
-              <div className="absolute top-4 left-4 bg-black/70 text-white px-3 py-1 rounded text-sm font-medium">
+              <div className="absolute top-4 left-4 bg-black/60 backdrop-blur px-3 py-1 rounded-full text-xs md:text-sm font-medium text-white">
                 Original
               </div>
-              <div className="absolute top-4 right-4 bg-black/70 text-white px-3 py-1 rounded text-sm font-medium">
+              <div className="absolute top-4 right-4 bg-black/60 backdrop-blur px-3 py-1 rounded-full text-xs md:text-sm font-medium text-white">
                 Result
               </div>
             </div>
