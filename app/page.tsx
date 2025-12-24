@@ -42,9 +42,9 @@ export default async function Home() {
 
     galleryItems = indices.map((i) => ({
       id: String(i),
-      originalSrc: `/results/img_${i}_original.png`,
-      resultSrc: `/results/img_${i}_result.png`,
-      maskSrc: `/results/img_${i}_mask.png`,
+      originalSrc: `${basePath}/results/img_${i}_original.png`,
+      resultSrc: `${basePath}/results/img_${i}_result.png`,
+      maskSrc: `${basePath}/results/img_${i}_mask.png`,
     }));
   } catch {
     galleryItems = [];

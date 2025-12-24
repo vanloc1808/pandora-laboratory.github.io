@@ -12,14 +12,16 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
 export const metadata: Metadata = {
   title: "PANDORA: Pixel-wise Attention Dissolution and Latent Guidance for Zero-Shot Object Removal",
   description:
     "PANDORA: A zero-shot object removal framework that operates directly on pre-trained diffusion models using Pixel-wise Attention Dissolution and Localized Attentional Disentanglement Guidance.",
   icons: {
-    icon: "/eraser.svg",
-    shortcut: "/eraser.svg",
-    apple: "/eraser.svg",
+    icon: `${basePath}/eraser.svg`,
+    shortcut: `${basePath}/eraser.svg`,
+    apple: `${basePath}/eraser.svg`,
   },
 };
 
