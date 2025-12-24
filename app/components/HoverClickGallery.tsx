@@ -3,136 +3,111 @@
 import { useState } from "react";
 
 type GalleryItem = {
-    id: string;
-    originalSrc: string;
-    resultSrc: string;
-    maskSrc: string;
+  id: string;
+  originalSrc: string;
+  resultSrc: string;
+  maskSrc: string;
 };
 
 type HoverClickGalleryProps = {
-    items: GalleryItem[];
-    className?: string;
+  items: GalleryItem[];
+  className?: string;
 };
 
-function GalleryItemComponent({ item, isClicked, isHovered, isLoading, onHover, onClick }: {
-    item: GalleryItem;
-    isClicked: boolean;
-    isHovered: boolean;
-    isLoading: boolean;
-    onHover: (hover: boolean) => void;
-    onClick: () => void;
-}) {
-    return (
-        <div
-            className="relative rounded-lg overflow-hidden cursor-pointer bg-gray-100 shadow-md hover:shadow-xl transition-shadow inline-block"
-            onMouseEnter={() => onHover(true)}
-            onMouseLeave={() => onHover(false)}
-            onClick={onClick}
-        >
-            {/* Base image (original or result based on click state) */}
-            <img
-                src={isClicked ? item.resultSrc : item.originalSrc}
-                alt=""
-                className="block select-none"
-            />
+function GalleryItemComponent({ item }: { item: GalleryItem }) {
+  const [isHovered, setIsHovered] = useState(false);
+  const [showResult, setShowResult] = useState(false); // Mặc định hiện ảnh gốc
 
-            {/* Loading overlay */}
-            {isLoading && (
-                <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                    <div className="text-center text-white">
-                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white mx-auto mb-2"></div>
-                        <div className="text-sm font-medium">Processing...</div>
-                        <div className="text-xs opacity-75">Please wait ~10 seconds</div>
-                    </div>
-                </div>
-            )}
+  // Toggle giữa Original và Result khi click
+  const handleClick = () => {
+    setShowResult(!showResult);
+  };
 
-            {/* Hover overlay - cyan only on masked (white) areas */}
-            {isHovered && !isClicked && !isLoading && (
-                <svg className="absolute inset-0 pointer-events-none" style={{ width: "100%", height: "100%" }}>
-                    <defs>
-                        <mask id={`mask-${item.id}`} maskUnits="userSpaceOnUse">
-                            <image
-                                href={item.maskSrc}
-                                x="0"
-                                y="0"
-                                width="100%"
-                                height="100%"
-                                preserveAspectRatio="none"
-                            />
-                        </mask>
-                    </defs>
-                    <rect
-                        x="0"
-                        y="0"
-                        width="100%"
-                        height="100%"
-                        fill="rgba(34, 211, 238, 0.6)"
-                        mask={`url(#mask-${item.id})`}
-                    />
-                </svg>
-            )}
+  return (
+    <div
+      className="relative aspect-square rounded-lg overflow-hidden cursor-pointer bg-gray-100 shadow-md hover:shadow-xl transition-shadow group"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onClick={handleClick}
+    >
+      {/* KỸ THUẬT STACKING: 
+         Load tất cả ảnh cùng lúc, dùng opacity để ẩn hiện.
+         Giúp chuyển đổi MƯỢT TỨC THÌ, không cần tải lại ảnh.
+      */}
 
-            {/* Hover hint */}
-            {isHovered && !isClicked && !isLoading && (
-                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 px-4 py-2 rounded-full bg-black/80 text-white text-sm font-medium whitespace-nowrap">
-                    Click to see result
-                </div>
-            )}
-        </div>
-    );
+      {/* 1. LAYER DƯỚI CÙNG: ẢNH GỐC */}
+      <img
+        src={item.originalSrc}
+        alt="Original"
+        className="absolute inset-0 w-full h-full object-cover select-none"
+        style={{ zIndex: 10 }} 
+      />
+
+      {/* 2. LAYER GIỮA: ẢNH KẾT QUẢ (Đè lên ảnh gốc) */}
+      <img
+        src={item.resultSrc}
+        alt="Result"
+        className="absolute inset-0 w-full h-full object-cover select-none transition-opacity duration-300"
+        // Chỉ hiện khi showResult = true
+        style={{ 
+          opacity: showResult ? 1 : 0, 
+          zIndex: 20 
+        }}
+      />
+
+      {/* 3. LAYER TRÊN CÙNG: MASK (HIỆU ỨNG MÀU CYAN) */}
+      {/* Chỉ hiện khi Hover và chưa bật chế độ xem kết quả */}
+      <div 
+        className="absolute inset-0 pointer-events-none transition-opacity duration-200"
+        style={{ 
+          opacity: isHovered && !showResult ? 1 : 0, 
+          zIndex: 30 
+        }}
+      >
+        <svg width="100%" height="100%">
+          <defs>
+            <mask id={`mask-${item.id}`} maskUnits="userSpaceOnUse">
+              <image
+                href={item.maskSrc}
+                x="0"
+                y="0"
+                width="100%"
+                height="100%"
+                preserveAspectRatio="none"
+              />
+            </mask>
+          </defs>
+          <rect
+            x="0"
+            y="0"
+            width="100%"
+            height="100%"
+            fill="rgba(34, 211, 238, 0.6)" // Màu Cyan
+            mask={`url(#mask-${item.id})`}
+          />
+        </svg>
+      </div>
+
+      {/* TOOLTIP HƯỚNG DẪN */}
+      <div 
+        className="absolute bottom-3 left-1/2 -translate-x-1/2 px-4 py-2 rounded-full bg-black/80 text-white text-sm font-medium whitespace-nowrap transition-opacity duration-200 pointer-events-none"
+        style={{ 
+            opacity: isHovered ? 1 : 0,
+            zIndex: 40
+        }}
+      >
+        {showResult ? "Result (Click to revert)" : "Click to see result"}
+      </div>
+    </div>
+  );
 }
 
 export default function HoverClickGallery({ items, className }: HoverClickGalleryProps) {
-    const [hoveredId, setHoveredId] = useState<string | null>(null);
-    const [clickedIds, setClickedIds] = useState<Set<string>>(new Set());
-    const [loadingIds, setLoadingIds] = useState<Set<string>>(new Set());
-
-    const handleClick = (id: string) => {
-        // If already clicked, toggle back to original
-        if (clickedIds.has(id)) {
-            setClickedIds((prev) => {
-                const newSet = new Set(prev);
-                newSet.delete(id);
-                return newSet;
-            });
-        } else {
-            // Show loading state
-            setLoadingIds((prev) => new Set(prev).add(id));
-
-            // Simulate processing time (10 seconds as mentioned in feedback)
-            setTimeout(() => {
-                setLoadingIds((prev) => {
-                    const newSet = new Set(prev);
-                    newSet.delete(id);
-                    return newSet;
-                });
-                setClickedIds((prev) => new Set(prev).add(id));
-            }, 10000);
-        }
-    };
-
-    const handleHover = (id: string | null) => {
-        setHoveredId(id);
-        // Reset click state when mouse leaves (but not if loading)
-        if (id === null && !loadingIds.has(hoveredId || '')) {
-            setClickedIds(new Set());
-        }
-    };
-
-    return (
-        <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 ${className ?? ""}`}>
-            {items.map((item) => (
-                <GalleryItemComponent
-                    key={item.id}
-                    item={item}
-                    isClicked={clickedIds.has(item.id)}
-                    isHovered={hoveredId === item.id}
-                    isLoading={loadingIds.has(item.id)}
-                    onHover={(hover) => handleHover(hover ? item.id : null)}
-                    onClick={() => handleClick(item.id)}
-                />
-            ))}
-        </div>
-    );
+  return (
+    <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 ${className ?? ""}`}>
+      {items.map((item) => (
+        <GalleryItemComponent key={item.id} item={item} />
+      ))}
+    </div>
+  );
 }
